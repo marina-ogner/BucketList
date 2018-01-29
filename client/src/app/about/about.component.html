@@ -1,0 +1,41 @@
+
+<h1>
+    {{name}}'s Bucket List</h1>
+
+<h2>Done</h2>
+<ng-container *ngFor="let item of items">
+    <p *ngIf="item._creator==aboutUser._id && item.checkbox==1 || item._tagged._id==aboutUser._id && item.checkbox==1">
+        <ng-container *ngIf="item._creator==userId || item._tagged._id==userId; else elseTemplate">
+            <input type="checkbox" (click)="checkbox(item._id)" checked> {{item._tagged.name}} | {{item.title}} - {{item.desc}} - {{item.createdAt | date:'MMM. d, yyyy'}}
+        </ng-container>
+        <ng-template #elseTemplate>
+            <input  [disabled] = "true" type="checkbox" checked> {{item._tagged.name}} | {{item.title}} - {{item.desc}} - {{item.createdAt | date:'MMM. d, yyyy'}}
+        </ng-template>
+</ng-container>
+
+<h2>Pending</h2>
+<ng-container *ngFor="let item of items">
+    <p *ngIf="item._creator==aboutUser._id && item.checkbox==0 || item._tagged._id==aboutUser._id && item.checkbox==0">
+        <ng-container *ngIf="item._creator==userId || item._tagged._id==userId; else elseTemplate">
+            <input type="checkbox" (click)="checkbox(item._id)"> {{item._tagged.name}} | {{item.title}} - {{item.desc}} - {{item.createdAt | date:'MMM. d, yyyy'}}
+        </ng-container>
+        <ng-template #elseTemplate>
+            <input [disabled] = "true" type="checkbox"> {{item._tagged.name}} | {{item.title}} - {{item.desc}} - {{item.createdAt | date:'MMM. d, yyyy'}}
+        </ng-template>
+</ng-container>
+
+
+
+
+
+
+<!-- <ng-container *ngFor="let item of items">
+    <p *ngIf="item._creator==aboutUser._id || item._tagged._id==aboutUser._id">
+        <ng-container *ngIf="item.checkbox==1; else elseTemplate">
+            <input type="checkbox" (click)="checkbox(item._id)" checked> {{item._tagged.name}} | {{item.title}} - {{item.desc}}
+        </ng-container>
+        <ng-template #elseTemplate>
+            <input type="checkbox" (click)="checkbox(item._id)"> {{item._tagged.name}} | {{item.title}} - {{item.desc}}
+        </ng-template>
+
+    </p> -->

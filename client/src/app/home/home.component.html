@@ -1,0 +1,40 @@
+<!-- {{items | json}} -->
+
+<!-- {{user | json}} -->
+<h1>Welcome {{userName}}!</h1>
+<a class="logout" href="/logout">Log out </a>
+
+<form (submit)="create()" #formData='ngForm'>
+    <input type="text" placeholder = "Title*" name="title" required minlength="5" [(ngModel)]="item.title" pattern="^(.{5,})$" #titleModel="ngModel"> 
+    <input type="text" placeholder = "Description**" name="desc" required minlength="10" [(ngModel)]="item.desc" pattern="^(.{10,})$" #descModel="ngModel"> 
+    <select name="tagged" id="" [(ngModel)]="item._tagged" #taggedModel="ngModel">
+        <option value="" disabled selected>Select...</option>
+        <option *ngFor="let user of users" value={{user._id}}>{{user.name}}</option>
+    </select>
+    <input type="submit"  [disabled]="!formData.valid" value="Add to List">
+</form>
+
+<h5>*Title must be at least 5 characters.</h5>
+<h5>**Description must be at least 10 characters.</h5>
+
+
+<h3>Before I die I want to....</h3>
+
+<ng-container *ngFor="let item of items">
+    <p *ngIf="item._creator==user._id || item._tagged._id==user._id">
+        <ng-container *ngIf="item.checkbox==1; else elseTemplate">
+            <input type="checkbox" (click)="checkbox(item._id)" checked> {{item._tagged.name}} | {{item.title}} - {{item.desc}} - {{item.createdAt | date:'MMM. d, yyyy'}}
+        </ng-container>
+        <ng-template #elseTemplate>
+            <input type="checkbox" (click)="checkbox(item._id)"> {{item._tagged.name}} | {{item.title}} - {{item.desc}} - {{item.createdAt | date:'MMM. d, yyyy'}}
+        </ng-template>
+
+    </p>
+</ng-container>
+
+<h3>List of other users (Click to view profile):</h3>
+<p *ngFor="let user of users">
+    <a href="javascript:void(0);" (click)="about(user._id)" *ngIf="user.name!=userName">
+        {{user.name}}
+    </a>
+</p>

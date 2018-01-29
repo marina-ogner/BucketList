@@ -1,0 +1,10 @@
+<form (submit)="login()" #formData='ngForm'>
+  Name: <input type="text" name="name" required minlength="2" pattern = "^([a-zA-Z0-9@* #]{2,})$" [(ngModel)]="user.name" #name="ngModel">
+  <!-- {{name.valid | json}} -->
+  <p *ngIf="!name.valid">Name must be at least 2 characters long.</p>
+  <br>
+  <input [disabled]="!formData.valid" type="submit" value="Login/Registration">
+
+</form>
+
+<!-- pattern = "/^(?=^([a-zA-Z0-9@* #]{2,})$)(?=^$).*$/" -->
